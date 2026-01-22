@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinemec Restro | Gourmet Experience</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --zomato-red: #E23744;
+            --dark: #1C1C1C;
+            --white: #FFFFFF;
+            --bg: #F8F8F8;
+            --gray: #696969;
+            --border: #E8E8E8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--bg); color: var(--dark); overflow-x: hidden; }
+
+        /* --- Navigation --- */
+        nav {
+            background: var(--white);
+            padding: 15px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+        }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--zomato-red); font-style: italic; cursor: pointer; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; cursor: pointer; transition: 0.3s; }
+        .nav-links a:hover { color: var(--zomato-red); }
+
+        /* --- Page Management --- */
+        .page { display: none; padding: 120px 10% 60px; min-height: 100vh; animation: fadeIn 0.4s ease; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- Home Page Hero --- */
+        .hero {
+            height: 60vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&auto=format');
+            background-size: cover; background-position: center;
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            color: white; text-align: center; margin-bottom: 40px;
+        }
+
+        /* --- Menu Grid --- */
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .food-card {
+            background: var(--white); border-radius: 15px; border: 1px solid var(--border);
+            overflow: hidden; transition: 0.3s;
+        }
+        .food-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .card-img { width: 100%; height: 200px; object-fit: cover; }
+        .card-body { padding: 20px; }
+        .btn-red {
+            width: 100%; padding: 12px; border: none; border-radius: 8px;
+            background: var(--zomato-red); color: white; font-weight: 600; cursor: pointer;
+        }
+
+        /* --- Checkout UI --- */
+        .checkout-box { max-width: 500px; margin: 0 auto; background: white; padding: 40px; border-radius: 15px; border: 1px solid var(--border); }
+        .summary-item { display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: 500; }
+        
+        /* --- Admin Table --- */
+        .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; }
+        .admin-table th, .admin-table td { padding: 15px; border: 1px solid var(--border); text-align: left; }
+        .admin-table th { background: #f4f4f4; color: var(--zomato-red); }
+
+        footer { text-align: center; padding: 40px; color: var(--gray); border-top: 1px solid var(--border); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" onclick="showPage('home')">kinemec</div>
+        <ul class="nav-links">
+            <li><a onclick="showPage('home')">Home</a></li>
+            <li><a onclick="showPage('menu')">Menu</a></li>
+            <li><a onclick="showPage('admin')">Admin</a></li>
+        </ul>
+    </nav>
+
+    <div id="home" class="page active">
+        <div class="hero">
+            <div>
+                <h1 style="font-size: 3.5rem;">Kinemec Restro</h1>
+                <p style="font-size: 1.2rem; letter-spacing: 2px;">BY RAJ | CIVIL LINES, PRAYAGRAJ</p>
+            </div>
+        </div>
+        <h2 style="margin-bottom: 20px;">Popular in Prayagraj</h2>
+        <div class="menu-grid" id="featured-grid">
+            </div>
+    </div>
+
+    <div id="menu" class="page">
+        <h1 style="margin-bottom: 30px;">Full Menu</h1>
+        <div class="menu-grid" id="full-menu-grid">
+            </div>
+    </div>
+
+    <div id="checkout" class="page">
+        <div class="checkout-box">
+            <h2 style="margin-bottom: 20px; border-bottom: 2px solid var(--zomato-red); display: inline-block;">Secure Checkout</h2>
+            <div id="checkout-summary" style="margin-top: 20px;">
+                </div>
+            <div style="margin: 20px 0; background: #f0faff; padding: 15px; border-radius: 8px; border: 1px solid #cce5ff;">
+                <p><strong>Payment Method:</strong> Paytm Gateway</p>
+            </div>
+            <button class="btn-red" onclick="processPayment()">CONFIRM ORDER</button>
+        </div>
+    </div>
+
+    <div id="admin" class="page">
+        <h1>Restaurant Backend Dashboard</h1>
+        <p style="color: var(--gray);">Real-time orders from your website.</p>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Dish Name</th>
+                    <th>Price</th>
+                    <th>Branch</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="admin-tbody">
+                </tbody>
+        </table>
+        <button onclick="clearData()" style="margin-top: 20px; padding: 10px; cursor: pointer;">Reset Database</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Kinemec Restro by Raj. Serving the best in Prayagraj.</p>
+    </footer>
+
+    <script>
+        // DATA
+        const foodItems = [
+            { name: "Artisan Pizza", price: 200, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400" },
+            { name: "White Sauce Pasta", price: 400, img: "https://images.unsplash.com/photo-1645112481357-1246995696f0?w=400" },
+            { name: "Cheese Burger", price: 300, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400" }
+        ];
+
+        let activeOrder = null;
+
+        // UI LOGIC
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+            if(id === 'admin') renderAdmin();
+        }
+
+        function renderMenu() {
+            const grids = [document.getElementById('featured-grid'), document.getElementById('full-menu-grid')];
+            grids.forEach(grid => {
+                grid.innerHTML = foodItems.map(item => `
+                    <div class="food-card">
+                        <img src="${item.img}" class="card-img">
+                        <div class="card-body">
+                            <h3>${item.name}</h3>
+                            <p style="color:var(--gray); margin-bottom: 15px;">Freshly prepared gourmet dish.</p>
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-weight:800; font-size:1.2rem;">₹${item.price}</span>
+                                <button class="btn-red" style="width:auto;" onclick="startCheckout('${item.name}', ${item.price})">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        // BACKEND & PAYMENT LOGIC
+        function startCheckout(name, price) {
+            activeOrder = { name, price };
+            document.getElementById('checkout-summary').innerHTML = `
+                <div class="summary-item"><span>${name}</span> <span>₹${price}</span></div>
+                <div class="summary-item" style="color:green;"><span>Delivery Fee</span> <span>FREE</span></div>
+                <div class="summary-item" style="font-size:1.3rem; border-top:1px solid #eee; padding-top:10px; margin-top:10px;">
+                    <span>Total</span> <span>₹${price}</span>
+                </div>
+            `;
+            showPage('checkout');
+        }
+
+        function processPayment() {
+            const orders = JSON.parse(localStorage.getItem('k_orders')) || [];
+            const newOrder = {
+                id: "KINE-" + Math.floor(1000 + Math.random() * 9000),
+                item: activeOrder.name,
+                price: "₹" + activeOrder.price,
+                branch: "Civil Lines",
+                status: "PAID"
+            };
+            orders.push(newOrder);
+            localStorage.setItem('k_orders', JSON.stringify(orders));
+
+            alert("Payment Successful via Paytm! Order Placed.");
+            showPage('home');
+        }
+
+        function renderAdmin() {
+            const tbody = document.getElementById('admin-tbody');
+            const data = JSON.parse(localStorage.getItem('k_orders')) || [];
+            tbody.innerHTML = data.map(o => `
+                <tr>
+                    <td>#${o.id}</td>
+                    <td>${o.item}</td>
+                    <td>${o.price}</td>
+                    <td>${o.branch}</td>
+                    <td style="color:green; font-weight:bold;">${o.status}</td>
+                </tr>
+            `).reverse().join('');
+        }
+
+        function clearData() { if(confirm("Clear database?")) { localStorage.clear(); renderAdmin(); } }
+
+        // INIT
+        renderMenu();
+    </script>
+</body>
+</html>
