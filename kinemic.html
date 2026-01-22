@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinemic Restro - Authentic Indian Cuisine</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #d32f2f; /* Red theme for Indian vibe */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav {
+            background-color: #b71c1c;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .hero {
+            background-image: url('https://source.unsplash.com/featured/?indian-food'); /* Placeholder hero image */
+            background-size: cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .menu-section {
+            margin: 40px 0;
+        }
+        .menu-item {
+            display: flex;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .menu-item img {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            animation: slide 5s infinite alternate; /* "Live" moving effect */
+        }
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(10px); }
+        }
+        .menu-details {
+            padding: 15px;
+            flex: 1;
+        }
+        .menu-details h3 {
+            margin: 0;
+            color: #d32f2f;
+        }
+        .menu-details p {
+            margin: 5px 0;
+        }
+        .price {
+            font-weight: bold;
+            color: #388e3c;
+        }
+        button {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #b71c1c;
+        }
+        .cart {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .payment-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 40px;
+        }
+        .payment-method {
+            margin: 10px 0;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        @media (max-width: 768px) {
+            .menu-item {
+                flex-direction: column;
+            }
+            .menu-item img {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Kinemic Restro</h1>
+        <p>Authentic Indian Cuisine with a Modern Twist</p>
+    </header>
+    <nav>
+        <a href="#menu">Menu</a>
+        <a href="#payment">Order & Pay</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="hero">
+        <h2>Welcome to Kinemic Restro</h2>
+        <p>Experience the flavors of India</p>
+    </div>
+
+    <div class="container">
+        <div id="cart" class="cart">
+            <h4>Cart: <span id="cart-count">0</span> items</h4>
+            <div id="cart-items"></div>
+            <button onclick="checkout()">Checkout</button>
+        </div>
+
+        <section id="menu" class="menu-section">
+            <h2>Our Vast Indian Menu</h2>
+            <!-- Appetizers -->
+            <h3>Appetizers</h3>
+            <div class="menu-item">
+                <img src="https://source.unsplash.com/featured/?samosa" alt="Samosa">
+                <div class="menu-details">
+                    <h3>Samosa</h3>
+                    <p>Crispy pastries filled with spiced potatoes and peas.</p>
+                    <p class="price">₹50</p>
+                    <button onclick="addToCart('Samosa', 50)">Add to Cart</button>
+                    <input type="number" id="qty-samosa" min="1" value="1" style="width: 50px; margin-left: 10px;">
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="https://source.unsplash.com/featured/?pakora" alt="Pakora">
+                <div class="menu-details">
+                    <h3>Pakora</h3>
+                    <p>Vegetable fritters dipped in chickpea batter.</p>
+                    <p class="price">₹60</p>
+                    <button onclick="addToCart('Pakora', 60)">Add to Cart</button>
+                    <input type="number" id="qty-pakora" min="1" value="1" style="width: 50px; margin-left: 10px;">
+                </div>
+            </div>
+            <!-- Main Courses -->
+            <h3>Main Courses</h3>
+            <div class="menu-item">
+                <img src="https://source.unsplash.com/featured/?butter-chicken" alt="Butter Chicken">
+                <div class="menu-details">
+                    <h3>Butter Chicken</h3>
+                    <p>Creamy tomato-based curry with tender chicken.</p>
+                    <p class="price">₹250</p>
+                    <button onclick="addToCart('Butter Chicken', 250)">Add to Cart</button>
+                    <input type="number" id="qty-butter-chicken" min="1" value="1" style="width: 50px; margin-left: 10px;">
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="https://source.unsplash.com/featured/?biryani" alt="Biryani">
+                <div class="menu-details">
+                    <h3>Chicken Biryani</h3>
+                    <p>Fragrant rice dish with marinated chicken and spices.</p>
+                    <p class="price">₹200</p>
+                    <button onclick="addToCart('Chicken Biryani', 200)">Add to Cart</button>
+                    <input type="number" id="qty-biryani" min="1" value="1" style="width: 50px; margin-left: 10px;">
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="https://source.unsplash.com/featured/?paneer-tikka" alt="Paneer Tikka">
+                <div class="menu-details">
+                    <h3>Paneer Tikka</h3>
+                    <p>Grilled paneer cubes marinated in yogurt and spices.</p>
+                    <p class="price">₹180</p>
+                    <button onclick="addToCart('Paneer Tikka', 180)">Add to Cart</button>
+                    <input type="number" id="qty-paneer-tikka" min="1" value="1" style="width: 50px; margin-left: 10px;">
+                </div>
+            </div>
+            <!-- Desserts -->
+            <h3>Desserts</h3>
+            <div class="menu-item">
+                <img src="https://source.unsplash.com/featured/?gulab-jamun" alt="Gulab Jamun">
+                <div class="menu-details">
+                    <h3>Gulab Jamun</h3>
+                    <p>Sweet dumplings soaked in rose-flavored syrup.</p>
+                    <p class="price">₹80</p>
+                    <button onclick="addToCart('Gulab Jamun', 80)">Add to Cart</button>
+                    <input type="number" id="qty-gulab-jamun" min="1" value="1" style="width: 50px; margin-left: 10px;">
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="https://source.unsplash.com/featured/?ras-malai" alt="Ras Malai">
+                <div class="menu-details">
+                    <h3>Ras Malai</h3>
+                    <p>Soft cheese dumplings in sweetened cardamom milk.</p>
+                    <p class="price">₹90</p>
+                    <button onclick="addToCart('Ras Malai', 90)">Add to Cart</button>
+                    <input type="number" id="qty-ras-malai" min="1" value="1" style="width: 50px; margin-left: 10px;">
+                </div>
+            </div>
+            <!-- Add more items as needed for a "vast" menu -->
+        </section>
+
+        <section id="payment" class="payment-section">
+            <h2>Order & Payment</h2>
+            <form id="order-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" required><br><br>
+                <label for="address">Address:</label>
+                <textarea id="address" required></textarea><br><br>
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" required><br><br>
+                <h3>Payment Methods</h3>
+                <div class="payment-method">
+                    <input type="radio" name="payment" value="card" checked> Credit/Debit Card
+                    <input type="text" placeholder="Card Number" id="card-number">
+                </div>
+                <div class="payment-method">
+                    <input type="radio" name="payment" value="upi"> UPI (e.g., Google Pay, PhonePe)
+                    <input type="text" placeholder="UPI ID" id="upi-id">
+                </div>
+                <div class="payment-method">
+                    <input type="radio" name="payment" value="paypal"> PayPal
+                    <input type="email" placeholder="PayPal Email" id="paypal-email">
+                </div>
+                <div class="payment-method">
+                    <input type="radio" name="payment" value="cod"> Cash on Delivery
+                </div>
+                <button type="submit">Place Order</button>
+            </form>
+        </section>
+    </div>
+
+    <footer id="contact">
+        <p>Contact Us: +91-1234567890 | email@kinemicrestro.com | 123 Main St, Mumbai</p>
+        <p>&copy; 2023 Kinemic Restro. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let cart = [];
+        let cartCount = 0;
+
+        function addToCart(item, price) {
+            const qtyId = `qty-${item.toLowerCase().replace(' ', '-')}`;
+            const qty = parseInt(document.getElementById(qtyId).value);
+            cart.push({ item, price, qty });
+            cartCount += qty;
+            document.getElementById('cart-count').textContent = cartCount;
+            document.getElementById('cart-items').innerHTML += `<p>${qty}x ${item} - ₹${price * qty}</p>`;
+            alert(`${qty} ${item}(s) added to cart!`); // Interactive feedback
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Cart is empty!');
+                return;
+            }
+            // Simulate backend connectivity: Send cart data to a server
+            fetch('https://jsonplaceholder.typicode.com/posts', { // Mock API endpoint
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cart, total: cart.reduce((sum, i) => sum + i.price * i.qty, 0) })
+            })
+            .then(response => response.json())
+            .then(data => alert('Order sent to server! ID: ' + data.id))
+            .catch(error => alert('Error connecting to server: ' + error));
+        }
+
+        document.getElementById('order-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = {
+                name: document.getElementById('name').value,
+                address: document.getElementById('address').value,
+                phone: document.getElementById('phone').value,
+                payment: document.querySelector('input[name="payment"]:checked').value
+            };
+            // Simulate payment processing and backend send
+            fetch('https://jsonplaceholder.typicode.com/posts', { // Mock API
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => alert('Payment processed! Order ID: ' + data.id))
+            .catch(error => alert('Payment error: ' + error));
+        });
+    </script>
+</body>
+</html>
