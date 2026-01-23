@@ -1,107 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Namaste Tech | Home</title>
+<title>Namaste Tech | Menu</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-:root{
- --bg1:#ff9800;
- --bg2:#ff5722;
- --card:#fff;
- --text:#222;
-}
-body.dark{
- --bg1:#121212;
- --bg2:#1f1f1f;
- --card:#1e1e1e;
- --text:#f5f5f5;
-}
-
 body{
  margin:0;
- font-family:Segoe UI,sans-serif;
- color:var(--text);
- background:linear-gradient(-45deg,var(--bg1),var(--bg2),#ffcc80);
+ font-family:Segoe UI;
+ background:linear-gradient(-45deg,#ff9800,#ff5722,#ffc107);
  background-size:400% 400%;
- animation:bgMove 10s ease infinite;
+ animation:bg 10s infinite;
 }
-
-@keyframes bgMove{
+@keyframes bg{
  0%{background-position:0% 50%}
  50%{background-position:100% 50%}
  100%{background-position:0% 50%}
 }
-
 header{
  padding:20px;
+ color:white;
  display:flex;
  justify-content:space-between;
- align-items:center;
- color:white;
 }
-
-a{
- color:white;
- text-decoration:none;
- margin-left:15px;
- font-weight:500;
-}
-
 .container{
  max-width:1100px;
  margin:auto;
  padding:30px;
 }
-
 .menu{
  display:grid;
  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
- gap:25px;
+ gap:20px;
 }
-
 .card{
- background:var(--card);
+ background:white;
  border-radius:16px;
  overflow:hidden;
- box-shadow:0 15px 35px rgba(0,0,0,.2);
- transition:.4s;
+ box-shadow:0 15px 30px rgba(0,0,0,.2);
 }
-.card:hover{
- transform:translateY(-10px);
-}
-
 .card img{
  width:100%;
  height:180px;
  object-fit:cover;
 }
-
-.card .info{
+.info{
  padding:15px;
 }
-
-.price{
- font-weight:bold;
- font-size:18px;
-}
-
 button{
  background:#ff5722;
  color:white;
  border:none;
- padding:10px 15px;
+ padding:10px 14px;
  border-radius:8px;
  cursor:pointer;
 }
-
-.toggle{
- background:rgba(255,255,255,.2);
- padding:6px 12px;
- border-radius:20px;
- cursor:pointer;
-}
+a{color:white;text-decoration:none;margin-left:15px;}
 </style>
 </head>
 
@@ -110,26 +63,24 @@ button{
 <header>
  <h1>🙏 Namaste Tech</h1>
  <div>
-  <span class="toggle" onclick="toggleDark()">🌙</span>
+  <a href="cart.html">🛒 Cart</a>
   <a href="contact.html">Contact</a>
-  <a href="admin.html">Admin</a>
  </div>
 </header>
 
 <div class="container">
- <h2>🍽️ Our Menu</h2>
-
  <div class="menu" id="menu"></div>
 </div>
 
 <script>
 let items=[
- {name:"Pizza",price:300,img:"https://images.unsplash.com/photo-1604382355076-af4b0eb60143"},
- {name:"Burger",price:400,img:"https://images.unsplash.com/photo-1550547660-d9450f859349"},
- {name:"Samosa",price:50,img:"https://images.unsplash.com/photo-1601050690597-df0568f70950"},
- {name:"Paneer Paratha",price:80,img:"https://images.unsplash.com/photo-1666001120894-d2e16d8a5bc3"}
+ {n:"Pizza",p:300,img:"https://images.unsplash.com/photo-1604382355076-af4b0eb60143"},
+ {n:"Burger",p:400,img:"https://images.unsplash.com/photo-1550547660-d9450f859349"},
+ {n:"Samosa",p:50,img:"https://images.unsplash.com/photo-1601050690597-df0568f70950"},
+ {n:"Paneer Paratha",p:80,img:"https://images.unsplash.com/photo-1666001120894-d2e16d8a5bc3"}
 ];
 
+let cart=JSON.parse(localStorage.cart||"[]");
 let menu=document.getElementById("menu");
 
 items.forEach(i=>{
@@ -137,18 +88,18 @@ items.forEach(i=>{
  <div class="card">
   <img src="${i.img}">
   <div class="info">
-   <h3>${i.name}</h3>
-   <p class="price">₹${i.price}</p>
-   <button>Add to Cart</button>
+   <h3>${i.n}</h3>
+   <p>₹${i.p}</p>
+   <button onclick='add("${i.n}",${i.p})'>Add to Cart</button>
   </div>
  </div>`;
 });
 
-function toggleDark(){
- document.body.classList.toggle("dark");
- localStorage.dark=document.body.classList.contains("dark");
+function add(n,p){
+ cart.push({n,p});
+ localStorage.cart=JSON.stringify(cart);
+ alert("Added to cart ✅");
 }
-if(localStorage.dark=="true")document.body.classList.add("dark");
 </script>
 
 </body>
