@@ -1,69 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Namaste Tech | Menu</title>
+<title>Namaste Tech | Food Ordering</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 body{
  margin:0;
  font-family:Segoe UI, sans-serif;
- background:#0f172a;
+ background:#0b1220;
  color:#e5e7eb;
 }
-#bg{position:fixed;inset:0;z-index:-1;}
-
 header{
- padding:20px;
+ padding:20px 40px;
  display:flex;
  justify-content:space-between;
  align-items:center;
 }
-a{color:#e5e7eb;text-decoration:none;margin-left:15px;}
-
-.container{max-width:1100px;margin:auto;padding:30px;}
+a{color:#38bdf8;text-decoration:none;margin-left:20px}
+.hero{
+ text-align:center;
+ padding:60px 20px;
+}
+.hero h1{font-size:42px}
 .menu{
+ max-width:1100px;
+ margin:auto;
  display:grid;
- grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
  gap:25px;
+ padding:40px;
 }
 .card{
  background:#111827;
- border-radius:16px;
+ border-radius:18px;
  overflow:hidden;
- box-shadow:0 15px 30px rgba(0,0,0,.4);
+ box-shadow:0 20px 40px rgba(0,0,0,.4);
+ transition:.4s;
 }
-.card img{width:100%;height:180px;object-fit:cover;}
-.info{padding:15px;}
+.card:hover{transform:translateY(-8px)}
+.card img{
+ width:100%;
+ height:180px;
+ object-fit:cover;
+}
+.card .info{padding:18px}
 button{
- background:#00baf2;
+ background:#38bdf8;
+ color:#0b1220;
  border:none;
- padding:10px 15px;
- border-radius:8px;
- color:white;
+ padding:10px 16px;
+ border-radius:10px;
  cursor:pointer;
+ font-weight:600;
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="bg"></canvas>
-
-<div style="position:relative;z-index:1;">
 <header>
- <h1>🙏 Namaste Tech</h1>
+ <h2>🙏 Namaste Tech</h2>
  <div>
   <a href="cart.html">🛒 Cart</a>
-  <a href="contact.html">Contact</a>
  </div>
 </header>
 
-<div class="container">
- <div class="menu" id="menu"></div>
-</div>
-</div>
+<section class="hero">
+ <h1>Delicious Food, Smart Ordering</h1>
+ <p>Fast • Secure • Modern</p>
+</section>
+
+<section class="menu" id="menu"></section>
 
 <script>
 const items=[
@@ -73,8 +80,8 @@ const items=[
  {n:"Paneer Paratha",p:80,img:"https://images.unsplash.com/photo-1666001120894-d2e16d8a5bc3"}
 ];
 
-let cart=JSON.parse(localStorage.cart||"[]");
-const menu=document.getElementById("menu");
+let cart = JSON.parse(localStorage.cart || "[]");
+const menu = document.getElementById("menu");
 
 items.forEach(i=>{
  menu.innerHTML+=`
@@ -83,34 +90,16 @@ items.forEach(i=>{
   <div class="info">
    <h3>${i.n}</h3>
    <p>₹${i.p}</p>
-   <button onclick='add("${i.n}",${i.p})'>Add to Cart</button>
+   <button onclick="add('${i.n}',${i.p})">Add to Cart</button>
   </div>
  </div>`;
 });
 
 function add(n,p){
  cart.push({n,p});
- localStorage.cart=JSON.stringify(cart);
+ localStorage.cart = JSON.stringify(cart);
  alert("Added to cart ✅");
 }
-</script>
-
-<script>
-const c=document.getElementById("bg"),x=c.getContext("2d");
-let w,h;function r(){w=c.width=innerWidth;h=c.height=innerHeight}
-addEventListener("resize",r);r();
-let p=Array.from({length:80},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5}));
-(function a(){
- x.clearRect(0,0,w,h);
- p.forEach(o=>{
-  o.x+=o.vx;o.y+=o.vy;
-  if(o.x<0||o.x>w)o.vx*=-1;
-  if(o.y<0||o.y>h)o.vy*=-1;
-  x.fillStyle="rgba(255,255,255,.6)";
-  x.beginPath();x.arc(o.x,o.y,2,0,Math.PI*2);x.fill();
- });
- requestAnimationFrame(a);
-})();
 </script>
 
 </body>
