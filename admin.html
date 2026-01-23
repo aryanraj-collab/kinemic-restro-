@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin | Namaste Tech</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+ margin:0;
+ font-family:Segoe UI;
+ background:#121212;
+ color:white;
+}
+.box{
+ max-width:400px;
+ margin:80px auto;
+ background:#1f1f1f;
+ padding:30px;
+ border-radius:15px;
+}
+input,button{
+ width:100%;
+ padding:10px;
+ margin:8px 0;
+}
+button{
+ background:#ff5722;
+ color:white;
+ border:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box" id="login">
+ <h2>Admin Login</h2>
+ <input id="u" placeholder="Username">
+ <input id="p" type="password" placeholder="Password">
+ <button onclick="login()">Login</button>
+</div>
+
+<div class="box" id="panel" style="display:none;">
+ <h2>Admin Panel</h2>
+ <input placeholder="Item Name">
+ <input placeholder="Price">
+ <input placeholder="Image URL">
+ <button>Add Item</button>
+ <p>(Dummy panel)</p>
+</div>
+
+<script>
+function login(){
+ if(u.value=="admin" && p.value=="admin123"){
+  login.style.display="none";
+  panel.style.display="block";
+ }else alert("Wrong credentials");
+}
+</script>
+
+</body>
+</html>
