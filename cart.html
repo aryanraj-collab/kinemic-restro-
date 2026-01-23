@@ -4,73 +4,66 @@
 <title>Cart | Namaste Tech</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body{margin:0;font-family:Segoe UI;background:#0f172a;color:#e5e7eb;}
-#bg{position:fixed;inset:0;z-index:-1;}
+body{
+ margin:0;
+ font-family:Segoe UI;
+ background:#0b1220;
+ color:#e5e7eb;
+}
 .container{
  max-width:700px;
- margin:60px auto;
+ margin:80px auto;
  background:#111827;
  padding:30px;
- border-radius:16px;
+ border-radius:20px;
 }
-li{display:flex;justify-content:space-between;padding:8px 0;}
+li{
+ display:flex;
+ justify-content:space-between;
+ padding:10px 0;
+ border-bottom:1px solid #1f2933;
+}
 button{
- background:#00baf2;
- border:none;
- padding:12px 18px;
- border-radius:8px;
- color:white;
- cursor:pointer;
+ width:100%;
  margin-top:20px;
+ padding:14px;
+ background:#38bdf8;
+ color:#0b1220;
+ border:none;
+ border-radius:12px;
+ font-size:16px;
+ font-weight:600;
+ cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="bg"></canvas>
-
-<div style="position:relative;z-index:1;">
 <div class="container">
  <h2>🛒 Your Cart</h2>
  <ul id="list"></ul>
  <h3>Total: ₹<span id="total"></span></h3>
- <button onclick="pay()">Proceed to Paytm</button>
-</div>
+ <button onclick="goPay()">Proceed to Paytm</button>
 </div>
 
 <script>
-let cart=JSON.parse(localStorage.cart||"[]");
-let total=0;
-const list=document.getElementById("list");
+let cart = JSON.parse(localStorage.cart || "[]");
+let total = 0;
+const list = document.getElementById("list");
 
 cart.forEach(i=>{
- total+=i.p;
- list.innerHTML+=`<li>${i.n}<span>₹${i.p}</span></li>`;
+ total += i.p;
+ list.innerHTML += `<li>${i.n}<span>₹${i.p}</span></li>`;
 });
-total.innerText=total;
 
-function pay(){
- if(total===0) return alert("Cart empty");
- localStorage.total=total;
- location.href="payment.html";
+total.innerText = total;
+
+function goPay(){
+ if(total===0) return alert("Cart is empty");
+ localStorage.total = total;
+ location.href="paytm.html";
 }
-</script>
-
-<script>
-const c=document.getElementById("bg"),x=c.getContext("2d");
-let w,h;function r(){w=c.width=innerWidth;h=c.height=innerHeight}
-addEventListener("resize",r);r();
-let p=Array.from({length:60},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5}));
-(function a(){
- x.clearRect(0,0,w,h);
- p.forEach(o=>{
-  o.x+=o.vx;o.y+=o.vy;
-  x.fillStyle="rgba(255,255,255,.6)";
-  x.beginPath();x.arc(o.x,o.y,2,0,Math.PI*2);x.fill();
- });
- requestAnimationFrame(a);
-})();
 </script>
 
 </body>
