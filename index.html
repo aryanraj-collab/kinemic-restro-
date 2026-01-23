@@ -1,78 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <title>Namaste Tech | Menu</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-  body{
+body{
  margin:0;
  font-family:Segoe UI, sans-serif;
  background:#0f172a;
  color:#e5e7eb;
- overflow-x:hidden;
 }
+#bg{position:fixed;inset:0;z-index:-1;}
 
-#bg {
- position:fixed;
- inset:0;
- z-index:-1;
-}
-body{
- margin:0;
- font-family:Segoe UI;
- background:linear-gradient(-45deg,#ff9800,#ff5722,#ffc107);
- background-size:400% 400%;
- animation:bg 10s infinite;
-}
-@keyframes bg{
- 0%{background-position:0% 50%}
- 50%{background-position:100% 50%}
- 100%{background-position:0% 50%}
-}
 header{
  padding:20px;
- color:white;
  display:flex;
  justify-content:space-between;
+ align-items:center;
 }
-.container{
- max-width:1100px;
- margin:auto;
- padding:30px;
-}
+a{color:#e5e7eb;text-decoration:none;margin-left:15px;}
+
+.container{max-width:1100px;margin:auto;padding:30px;}
 .menu{
  display:grid;
  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
- gap:20px;
+ gap:25px;
 }
 .card{
- background:white;
+ background:#111827;
  border-radius:16px;
  overflow:hidden;
- box-shadow:0 15px 30px rgba(0,0,0,.2);
+ box-shadow:0 15px 30px rgba(0,0,0,.4);
 }
-.card img{
- width:100%;
- height:180px;
- object-fit:cover;
-}
-.info{
- padding:15px;
-}
+.card img{width:100%;height:180px;object-fit:cover;}
+.info{padding:15px;}
 button{
- background:#ff5722;
- color:white;
+ background:#00baf2;
  border:none;
- padding:10px 14px;
+ padding:10px 15px;
  border-radius:8px;
+ color:white;
  cursor:pointer;
 }
-a{color:white;text-decoration:none;margin-left:15px;}
 </style>
 </head>
 
 <body>
 
+<canvas id="bg"></canvas>
+
+<div style="position:relative;z-index:1;">
 <header>
  <h1>🙏 Namaste Tech</h1>
  <div>
@@ -84,11 +63,10 @@ a{color:white;text-decoration:none;margin-left:15px;}
 <div class="container">
  <div class="menu" id="menu"></div>
 </div>
-
-
+</div>
 
 <script>
-let items=[
+const items=[
  {n:"Pizza",p:300,img:"https://images.unsplash.com/photo-1604382355076-af4b0eb60143"},
  {n:"Burger",p:400,img:"https://images.unsplash.com/photo-1550547660-d9450f859349"},
  {n:"Samosa",p:50,img:"https://images.unsplash.com/photo-1601050690597-df0568f70950"},
@@ -96,7 +74,7 @@ let items=[
 ];
 
 let cart=JSON.parse(localStorage.cart||"[]");
-let menu=document.getElementById("menu");
+const menu=document.getElementById("menu");
 
 items.forEach(i=>{
  menu.innerHTML+=`
@@ -115,6 +93,24 @@ function add(n,p){
  localStorage.cart=JSON.stringify(cart);
  alert("Added to cart ✅");
 }
+</script>
+
+<script>
+const c=document.getElementById("bg"),x=c.getContext("2d");
+let w,h;function r(){w=c.width=innerWidth;h=c.height=innerHeight}
+addEventListener("resize",r);r();
+let p=Array.from({length:80},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5}));
+(function a(){
+ x.clearRect(0,0,w,h);
+ p.forEach(o=>{
+  o.x+=o.vx;o.y+=o.vy;
+  if(o.x<0||o.x>w)o.vx*=-1;
+  if(o.y<0||o.y>h)o.vy*=-1;
+  x.fillStyle="rgba(255,255,255,.6)";
+  x.beginPath();x.arc(o.x,o.y,2,0,Math.PI*2);x.fill();
+ });
+ requestAnimationFrame(a);
+})();
 </script>
 
 </body>
