@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cart | Namaste Tech</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{margin:0;font-family:Segoe UI;background:#f4f6f8;}
+.container{
+ max-width:800px;
+ margin:40px auto;
+ background:white;
+ padding:30px;
+ border-radius:15px;
+ box-shadow:0 15px 30px rgba(0,0,0,.1);
+}
+li{
+ display:flex;
+ justify-content:space-between;
+ padding:8px 0;
+ border-bottom:1px solid #eee;
+}
+button{
+ background:#00baf2;
+ color:white;
+ border:none;
+ padding:12px 18px;
+ border-radius:8px;
+ margin-top:20px;
+ cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+ <h2>🛒 Your Cart</h2>
+ <ul id="list"></ul>
+ <h3>Total: ₹<span id="total"></span></h3>
+ <button onclick="pay()">Proceed to Paytm</button>
+</div>
+
+<script>
+let cart=JSON.parse(localStorage.cart||"[]");
+let total=0;
+let list=document.getElementById("list");
+
+cart.forEach(i=>{
+ total+=i.p;
+ list.innerHTML+=`<li>${i.n}<span>₹${i.p}</span></li>`;
+});
+document.getElementById("total").innerText=total;
+
+function pay(){
+ if(total==0) return alert("Cart empty");
+ localStorage.total=total;
+ location.href="payment.html";
+}
+</script>
+
+</body>
+</html>
