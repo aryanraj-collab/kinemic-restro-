@@ -39,6 +39,20 @@ button{
  <h3>Total: ₹<span id="total"></span></h3>
  <button onclick="pay()">Proceed to Paytm</button>
 </div>
+ body{
+ margin:0;
+ font-family:Segoe UI, sans-serif;
+ background:#0f172a;
+ color:#e5e7eb;
+ overflow-x:hidden;
+}
+
+#bg {
+ position:fixed;
+ inset:0;
+ z-index:-1;
+}
+
 
 <script>
 let cart=JSON.parse(localStorage.cart||"[]");
