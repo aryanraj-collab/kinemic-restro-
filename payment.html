@@ -4,92 +4,82 @@
 <title>Paytm Payment</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
- body{
- margin:0;
- font-family:Segoe UI, sans-serif;
- background:#0f172a;
- color:#e5e7eb;
- overflow-x:hidden;
-}
-
-#bg {
- position:fixed;
- inset:0;
- z-index:-1;
-}
-body{
- margin:0;
- font-family:Segoe UI;
- background:#e8f7fd;
-}
+body{margin:0;font-family:Segoe UI;background:#0f172a;color:#e5e7eb;}
+#bg{position:fixed;inset:0;z-index:-1;}
 .paytm{
  max-width:400px;
  margin:80px auto;
- background:white;
+ background:#111827;
  border-radius:18px;
- box-shadow:0 20px 40px rgba(0,0,0,.15);
  overflow:hidden;
 }
 .header{
  background:#00baf2;
- color:white;
  padding:20px;
  text-align:center;
 }
-.body{
- padding:25px;
-}
+.body{padding:25px;}
 input{
  width:100%;
  padding:12px;
  margin:10px 0;
  border-radius:8px;
- border:1px solid #ccc;
+ border:none;
 }
 button{
  width:100%;
  padding:12px;
  background:#00baf2;
- color:white;
  border:none;
  border-radius:8px;
+ color:white;
  font-size:16px;
  cursor:pointer;
-}
-.success{
- text-align:center;
- color:green;
- font-weight:bold;
- margin-top:15px;
 }
 </style>
 </head>
 
 <body>
 
+<canvas id="bg"></canvas>
+
+<div style="position:relative;z-index:1;">
 <div class="paytm">
  <div class="header">
   <h2>Paytm Secure Payment</h2>
-  <p>Amount: ₹<span id="amt"></span></p>
+  <p>Amount ₹<span id="amt"></span></p>
  </div>
-
  <div class="body">
   <input placeholder="Mobile Number">
-  <input placeholder="UPI / Wallet PIN" type="password">
-  <button onclick="pay()">Pay Now</button>
-  <p class="success" id="msg"></p>
+  <input type="password" placeholder="UPI / Wallet PIN">
+  <button onclick="done()">Pay Now</button>
+  <p id="msg"></p>
  </div>
 </div>
- 
-
+</div>
 
 <script>
-document.getElementById("amt").innerText=localStorage.total;
-
-function pay(){
- document.getElementById("msg").innerText="Payment Successful ✅";
+amt.innerText=localStorage.total;
+function done(){
+ msg.innerText="Payment Successful ✅";
  localStorage.cart="[]";
 }
+</script>
+
+<script>
+const c=document.getElementById("bg"),x=c.getContext("2d");
+let w,h;function r(){w=c.width=innerWidth;h=c.height=innerHeight}
+addEventListener("resize",r);r();
+let p=Array.from({length:70},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5}));
+(function a(){
+ x.clearRect(0,0,w,h);
+ p.forEach(o=>{
+  o.x+=o.vx;o.y+=o.vy;
+  x.fillStyle="rgba(255,255,255,.6)";
+  x.beginPath();x.arc(o.x,o.y,2,0,Math.PI*2);x.fill();
+ });
+ requestAnimationFrame(a);
+})();
 </script>
 
 </body>
