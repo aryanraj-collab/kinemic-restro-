@@ -4,73 +4,73 @@
 <title>Cart | Namaste Tech</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  body{
- margin:0;
- font-family:Segoe UI, sans-serif;
- background:#0f172a;
- color:#e5e7eb;
- overflow-x:hidden;
-}
-
-#bg {
- position:fixed;
- inset:0;
- z-index:-1;
-}
-body{margin:0;font-family:Segoe UI;background:#f4f6f8;}
+body{margin:0;font-family:Segoe UI;background:#0f172a;color:#e5e7eb;}
+#bg{position:fixed;inset:0;z-index:-1;}
 .container{
- max-width:800px;
- margin:40px auto;
- background:white;
+ max-width:700px;
+ margin:60px auto;
+ background:#111827;
  padding:30px;
- border-radius:15px;
- box-shadow:0 15px 30px rgba(0,0,0,.1);
+ border-radius:16px;
 }
-li{
- display:flex;
- justify-content:space-between;
- padding:8px 0;
- border-bottom:1px solid #eee;
-}
+li{display:flex;justify-content:space-between;padding:8px 0;}
 button{
  background:#00baf2;
- color:white;
  border:none;
  padding:12px 18px;
  border-radius:8px;
- margin-top:20px;
+ color:white;
  cursor:pointer;
+ margin-top:20px;
 }
 </style>
 </head>
 
 <body>
 
+<canvas id="bg"></canvas>
+
+<div style="position:relative;z-index:1;">
 <div class="container">
  <h2>🛒 Your Cart</h2>
  <ul id="list"></ul>
  <h3>Total: ₹<span id="total"></span></h3>
  <button onclick="pay()">Proceed to Paytm</button>
 </div>
-
-
+</div>
 
 <script>
 let cart=JSON.parse(localStorage.cart||"[]");
 let total=0;
-let list=document.getElementById("list");
+const list=document.getElementById("list");
 
 cart.forEach(i=>{
  total+=i.p;
  list.innerHTML+=`<li>${i.n}<span>₹${i.p}</span></li>`;
 });
-document.getElementById("total").innerText=total;
+total.innerText=total;
 
 function pay(){
- if(total==0) return alert("Cart empty");
+ if(total===0) return alert("Cart empty");
  localStorage.total=total;
  location.href="payment.html";
 }
+</script>
+
+<script>
+const c=document.getElementById("bg"),x=c.getContext("2d");
+let w,h;function r(){w=c.width=innerWidth;h=c.height=innerHeight}
+addEventListener("resize",r);r();
+let p=Array.from({length:60},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5}));
+(function a(){
+ x.clearRect(0,0,w,h);
+ p.forEach(o=>{
+  o.x+=o.vx;o.y+=o.vy;
+  x.fillStyle="rgba(255,255,255,.6)";
+  x.beginPath();x.arc(o.x,o.y,2,0,Math.PI*2);x.fill();
+ });
+ requestAnimationFrame(a);
+})();
 </script>
 
 </body>
